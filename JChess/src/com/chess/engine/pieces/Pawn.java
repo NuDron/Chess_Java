@@ -7,18 +7,22 @@ import com.chess.engine.board.Move;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+/**
+ * TODO DOCUMENTATION
+ */
 public class Pawn extends Piece {
 
-    private final static int[] CANDIDATE_MOVE_COORDINATE = {8, 16}; // 16 is for first 'jump' move.
+    private final static int[] CANDIDATE_MOVE_COORDINATE = {7, 8, 9, 16}; // 16 is for first 'jump' move. 9 & 7 is for attack.
 
-    Pawn(final int piecePos,final Alliance pieceAll) {
+    Pawn(final int piecePos, final Alliance pieceAll) {
         super(piecePos, pieceAll);
     }
 
     @Override
-    public Collection<Move> calculateLegalMoves(Board board) {
+    public Collection<Move> calculateLegalMoves(final Board board) {
 
         final List<Move> legalMoves = new ArrayList<>();
         for(final int currentCandidateOffset : CANDIDATE_MOVE_COORDINATE) {
@@ -38,11 +42,23 @@ public class Pawn extends Piece {
                 if(!board.getTile(behindCandidateDestionationCoordinate).isTileOccupied() &&
                         !board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
                         legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+                    }
+                // FOR ATTACK - When white piece is on the 8th column or Black piece is on the 1st column.
+                }else if(currentCandidateOffset == 7 &&
+                    !((BoardUtils.EIGHT_COLUMN[this.piecePosition] && this.getPieceAlliance().isWhite())
+                            || (BoardUtils.FIRST_COLUMN[this.piecePosition] && this.getPieceAlliance().isBlack()))) {
+                        if(board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
+                            final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
+                            if(this.pieceAlliance != pieceOnCandidate.getPieceAlliance()) {
+                                //TODO
+                                legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+                            }
+                        }
+                } else if(currentCandidateOffset == 9 &&
+                    !((BoardUtils.FIRST_COLUMN[this.piecePosition] && this.getPieceAlliance().isWhite())
+                    || (BoardUtils.EIGHT_COLUMN[this.piecePosition] && this.getPieceAlliance().isBlack()))) {
                 }
             }
-
-        }
-
-        return null;
+        return Collections.unmodifiableList(legalMoves);
     }
 }
