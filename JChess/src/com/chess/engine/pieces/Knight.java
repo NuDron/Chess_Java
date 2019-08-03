@@ -19,14 +19,14 @@ public class Knight extends Piece {
     }
 
     @Override
-    public List<Move> calculateLegalMoves(Board board) {
+    public List<Move> calculateLegalMoves(final Board board) {
         final List<Move> legalMoves = new ArrayList<>();
 
         for(final int currentCandidateOffset : CANDIDATE_MOVE_COORDINATES) {
-            final int candidateDestionationCoordinate;
-            candidateDestionationCoordinate = this.piecePosition + currentCandidate;
+            final int candidateDestinationCoordinate;
+            candidateDestinationCoordinate = this.piecePosition + currentCandidateOffset;
 
-            if(BoardUtils.isValidTileCoordinate(candidateDestionationCoordinate)) {
+            if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
 
                 if((isFirstColumnExclusion(this.piecePosition, currentCandidateOffset) ||
                         isFirstColumnExclusion(this.piecePosition, currentCandidateOffset) ||
@@ -35,17 +35,17 @@ public class Knight extends Piece {
                         isEightcolumnExclusion(this.piecePosition, currentCandidateOffset)) {
                     continue;
                 }
-                final Tile candidateDestinationTile = board.getTile(candidateDestionationCoordinate);
+                final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
 
                 if(!candidateDestinationTile.isTileOccupied()) {
-                    legalMoves.add(new Move());
+                    legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate)); // Create new move, pass this.piece, location we want to move.
                 } else {
 
                     final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                     final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                     if(this.pieceAlliance != pieceAlliance) {
-                        legalMoves.add(new Move());
+                        legalMoves.add(new Move.AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
                     }
                 }
             }
