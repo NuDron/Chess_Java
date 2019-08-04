@@ -2,6 +2,8 @@ package com.chess.engine.board;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.pieces.*;
+import com.chess.engine.player.BlackPlayer;
+import com.chess.engine.player.WhitePlayer;
 
 import java.util.*;
 
@@ -25,6 +27,8 @@ public class Board {
         private final List<Tile> gameBoard;
         private final Collection<Piece> whitePieces;
         private final Collection<Piece> blackPieces;
+        private final WhitePlayer wPlayer;
+        private final BlackPlayer bPlayer;
 
         private Board(Builder builder) {
             this.gameBoard = createGameBoard(builder);
@@ -33,6 +37,9 @@ public class Board {
 
             final Collection<Move> whiteStandardLegalMoves = calculateLegalMoves(this.whitePieces);
             final Collection<Move> blackStandardLegalMoves = calculateLegalMoves(this.blackPieces);
+
+            this.wPlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+            this.bPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         }
 
         @Override
@@ -48,6 +55,21 @@ public class Board {
             return builder.toString();
         }
 
+        /**
+        * Method to pass the black pieces collection to player class.
+        * @return
+        */
+        public Collection<Piece> getBlackPieces() {
+            return this.blackPieces;
+        }
+
+        /**
+        * Method to pass the white pieces collection to player class.
+        * @return
+        */
+        public Collection<Piece> getWhitePieces() {
+            return this.whitePieces;
+        }
 
         private Collection<Move> calculateLegalMoves(final Collection<Piece> piecesCollection) {
             final List<Move> legalMoves = new ArrayList<>();
