@@ -17,7 +17,7 @@ public class Pawn extends Piece {
 
     private final static int[] CANDIDATE_MOVE_COORDINATE = {7, 8, 9, 16}; // 16 is for first 'jump' move. 9 & 7 is for attack.
 
-    Pawn(final int piecePos, final Alliance pieceAll) {
+    public Pawn(final int piecePos, final Alliance pieceAll) {
         super(piecePos, pieceAll);
     }
 
@@ -60,5 +60,10 @@ public class Pawn extends Piece {
                 }
             }
         return Collections.unmodifiableList(legalMoves);
+    }
+
+    @Override
+    public String toString() {
+        return PieceType.PAWN.toString();
     }
 }
