@@ -17,7 +17,7 @@ public class Bishop extends Piece {
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = { -9, -7, 7, 9 };
 
     //Constructor
-    Bishop(int piecePos, Alliance pieceAll) {
+    public Bishop(int piecePos, Alliance pieceAll) {
         super(piecePos, pieceAll);
     }
 
@@ -31,7 +31,7 @@ public class Bishop extends Piece {
 
                 if(isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset) ||
                         isEightColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
-                    break; // For Edge cases when Bishop is in first or eight column (different methods) we break the flow as this particular moves does not follow the rules.
+                    break; // For Edge cases when BISHOP is in first or eight column (different methods) we break the flow as this particular moves does not follow the rules.
                 }
 
                 candidateDestinationCoordinate += candidateCoordinateOffset;
@@ -45,7 +45,7 @@ public class Bishop extends Piece {
                         if (this.pieceAlliance != pieceAlliance) {
                             legalMoves.add(new Move.AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
                         }
-                        break; // If occupied tile is 'on the line' then algorithm need to break. Bishop cannot move through other pieces.
+                        break; // If occupied tile is 'on the line' then algorithm need to break. BISHOP cannot move through other pieces.
                     }
                 }
             }
@@ -53,6 +53,10 @@ public class Bishop extends Piece {
         return Collections.unmodifiableList(legalMoves);
     }
 
+    @Override
+    public String toString() {
+        return PieceType.BISHOP.toString();
+    }
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset) {
         return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -9 || candidateOffset == 7);
     }
