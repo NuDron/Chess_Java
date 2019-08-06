@@ -3,6 +3,7 @@ package com.chess.engine.board;
 import com.chess.engine.Alliance;
 import com.chess.engine.pieces.*;
 import com.chess.engine.player.BlackPlayer;
+import com.chess.engine.player.Player;
 import com.chess.engine.player.WhitePlayer;
 
 import java.util.*;
@@ -29,8 +30,9 @@ public class Board {
         private final Collection<Piece> blackPieces;
         private final WhitePlayer wPlayer;
         private final BlackPlayer bPlayer;
+        private final Player currentPlayer;
 
-        private Board(Builder builder) {
+        private Board(final Builder builder) {
             this.gameBoard = createGameBoard(builder);
             this.whitePieces = calculateActivePieces(this.gameBoard, Alliance.WHITE);
             this.blackPieces = calculateActivePieces(this.gameBoard, Alliance.BLACK);
@@ -40,6 +42,7 @@ public class Board {
 
             this.wPlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
             this.bPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+            this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.wPlayer, this.bPlayer);
         }
 
         @Override
@@ -55,6 +58,18 @@ public class Board {
             return builder.toString();
         }
 
+        // For method in Player class.
+        public Player whitePlayer() {
+            return this.wPlayer;
+        }
+        //For method in player class.
+        public Player blackPlayer() {
+            return this.bPlayer;
+        }
+
+        public Player getCurrentPlayer() {
+            return this.currentPlayer;
+        }
         /**
         * Method to pass the black pieces collection to player class.
         * @return
@@ -137,6 +152,16 @@ public class Board {
              builder.setMoveMaker(Alliance.WHITE);
 
              return builder.build();
+         }
+
+         public Collection<Move> getAllLegalMoves() {
+             // Create new local variable
+             ArrayList<Move> result = new ArrayList<>();
+             // Add white player legal moves.
+             result.addAll(this.wPlayer.getLegalMoves());
+             // Add black player legal moves.
+             result.addAll(this.bPlayer.getLegalMoves());
+             return Collections.unmodifiableList(result);
          }
 
         //Constructor
