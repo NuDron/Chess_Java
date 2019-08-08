@@ -137,15 +137,15 @@ public class Board {
                  builder.setPiece(new Pawn(i, Alliance.BLACK));
              }
              // White Piece Layout
-             builder.setPiece(new Rook(48, Alliance.WHITE));
-             builder.setPiece(new Knight(49, Alliance.WHITE));
-             builder.setPiece(new Bishop(50, Alliance.WHITE));
-             builder.setPiece(new Queen(51, Alliance.WHITE));
-             builder.setPiece(new King(52, Alliance.WHITE));
-             builder.setPiece(new Bishop(53, Alliance.WHITE));
-             builder.setPiece(new Knight(54, Alliance.WHITE));
-             builder.setPiece(new Rook(55, Alliance.WHITE));
-             for(int i = 56; i < 64; i++) {
+             builder.setPiece(new Rook(56, Alliance.WHITE));
+             builder.setPiece(new Knight(57, Alliance.WHITE));
+             builder.setPiece(new Bishop(58, Alliance.WHITE));
+             builder.setPiece(new Queen(59, Alliance.WHITE));
+             builder.setPiece(new King(60, Alliance.WHITE));
+             builder.setPiece(new Bishop(61, Alliance.WHITE));
+             builder.setPiece(new Knight(62, Alliance.WHITE));
+             builder.setPiece(new Rook(63, Alliance.WHITE));
+             for(int i = 48; i < 56; i++) {
                  builder.setPiece(new Pawn(i, Alliance.WHITE));
              }
              //Set white pieces to move first
@@ -170,6 +170,7 @@ public class Board {
              Alliance nextMoveMaker;
 
             public Builder() {
+
                 this.boardConfig = new HashMap<>();
             }
 
@@ -179,7 +180,7 @@ public class Board {
 
             }
 
-            public Builder setMoveMaker(final Alliance alliance) {
+            public Builder setMoveMaker(final Alliance nextMoveMaker) {
                 this.nextMoveMaker = nextMoveMaker;
                 return this;
             }
@@ -190,6 +191,8 @@ public class Board {
 
             // TODO
             public void setEnPassantPawn(Pawn movedPawn) {
+                //this.enPassantPawn = movedPawn;
+                //return this;
             }
         }
 }
