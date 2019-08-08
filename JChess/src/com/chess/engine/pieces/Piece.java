@@ -85,16 +85,28 @@ public abstract class Piece {
             public boolean isKing(){
                 return false;
             }
+            @Override
+            public boolean isRook() {
+                return false;
+            }
         },
         KING("K"){
             @Override
             public boolean isKing(){
                 return true;
             }
+            @Override
+            public boolean isRook() {
+                return false;
+            }
         },
         KNIGHT("N"){
             @Override
             public boolean isKing(){
+                return false;
+            }
+            @Override
+            public boolean isRook() {
                 return false;
             }
         },
@@ -103,10 +115,18 @@ public abstract class Piece {
             public boolean isKing(){
                 return false;
             }
+            @Override
+            public boolean isRook() {
+                return false;
+            }
         },
         QUEEN("Q"){
             @Override
             public boolean isKing(){
+                return false;
+            }
+            @Override
+            public boolean isRook() {
                 return false;
             }
         },
@@ -114,6 +134,10 @@ public abstract class Piece {
             @Override
             public boolean isKing(){
                 return false;
+            }
+            @Override
+            public boolean isRook() {
+                return true;
             }
         };
 
@@ -130,6 +154,7 @@ public abstract class Piece {
 
         // Making abstract method saves casting.
         public abstract boolean isKing();
+        public abstract boolean isRook();
     }
 
 }

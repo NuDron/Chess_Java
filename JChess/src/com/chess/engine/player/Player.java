@@ -8,6 +8,8 @@ import com.chess.engine.pieces.Piece;
 
 import java.awt.geom.Area;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 // Abstract class of player
 public abstract class Player {
@@ -23,7 +25,7 @@ public abstract class Player {
 
         this.board = board;
         this.playerKing = establishKing();
-        this.legalMoves = legalMoves;
+        this.legalMoves = Collections.unmodifiableList(Stream.concat(legalMoves.stream(), opponentMoves.stream()).collect(Collectors.toList()));
         this.isInCheck = !Player.calcAttackOnTile(this.playerKing.getPiecePosition(), opponentMoves).isEmpty(); //If the list (of possible attacks for player's King) is not empty then player is in check/
 
     }
@@ -45,7 +47,7 @@ public abstract class Player {
      * @param moves
      * @return
      */
-    private static Collection<Move> calcAttackOnTile(int piecePosition, Collection<Move> moves) {
+    protected static Collection<Move> calcAttackOnTile(int piecePosition, Collection<Move> moves) {
         final List<Move> attackMoves = new ArrayList<>();
         // Checking every potential enemy move for threat against King piece.
         for(final Move move : moves) {
@@ -135,4 +137,5 @@ public abstract class Player {
     public abstract Collection<Piece> getActivePieces();
     public abstract Alliance getAlliance();
     public abstract Player getOppenent();
+    protected abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegalMoves, Collection<Move> opponentsLegalMoves);
 }
