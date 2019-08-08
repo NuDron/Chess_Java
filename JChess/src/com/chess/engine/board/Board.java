@@ -187,5 +187,9 @@ public class Board {
             public Board build() {
             return new Board(this);
         }
-    }
+
+            // TODO
+            public void setEnPassantPawn(Pawn movedPawn) {
+            }
+        }
 }
